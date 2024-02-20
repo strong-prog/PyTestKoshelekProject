@@ -10,6 +10,7 @@ class TestAllFieldsEmpty:
 
     @staticmethod
     def button_click(shadow):
+        """Метод для нажатия на кнопку"""
         try:
             button_element = shadow.find_element('div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
             button_element.click()
@@ -19,6 +20,7 @@ class TestAllFieldsEmpty:
 
     @staticmethod
     def check_alert_text(shadow, element_selector, expected_text):
+        """Метод для проверки текста сообщения об ошибке"""
         try:
             alert_text = shadow.find_element(element_selector)
 
@@ -28,6 +30,7 @@ class TestAllFieldsEmpty:
             pytest.fail(f'Элемент "{element_selector}" не найден, тест не может быть выполнен')
 
     def test_username_alert_field_empty(self, browser):
+        """Тест для проверки сообщения об ошибке, если поле имени пользователя пустое"""
         browser.get(TestAllFieldsEmpty.url)
         shadow = Shadow(browser)
         time.sleep(5)
@@ -38,6 +41,7 @@ class TestAllFieldsEmpty:
                               'Поле не заполнено')
 
     def test_email_alert_field_empty(self, browser):
+        """Тест для проверки сообщения об ошибке, если поле электронной почты пустое"""
         browser.get(TestAllFieldsEmpty.url)
         shadow = Shadow(browser)
         time.sleep(5)
@@ -48,6 +52,7 @@ class TestAllFieldsEmpty:
                               'Поле не заполнено')
 
     def test_password_alert_field_empty(self, browser):
+        """Тест для проверки сообщения об ошибке, если поле пароля пустое"""
         browser.get(TestAllFieldsEmpty.url)
         shadow = Shadow(browser)
         time.sleep(5)
@@ -63,6 +68,7 @@ class TestFieldsInvalidInput:
 
     @staticmethod
     def button_click(shadow):
+        """Метод для нажатия на кнопку"""
         try:
             button_element = shadow.find_element(
                 'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
@@ -73,6 +79,7 @@ class TestFieldsInvalidInput:
 
     @staticmethod
     def enter_text(shadow, field_selector, text):
+        """Метод для ввода текста в поле ввода"""
         try:
             input_field = shadow.find_element(field_selector)
             input_field.send_keys(text)
@@ -82,6 +89,7 @@ class TestFieldsInvalidInput:
 
     @staticmethod
     def check_alert_text(shadow, field_selector, expected_text):
+        """Метод для проверки текста сообщения об ошибке"""
         try:
             alert_text = shadow.find_element(field_selector)
 
@@ -91,6 +99,7 @@ class TestFieldsInvalidInput:
             pytest.fail(f'Элемент "{field_selector}" не найден, тест не может быть выполнен')
 
     def test_alert_username_field_invalid_input(self, browser):
+        """Тест для проверки сообщения об ошибке при вводе некорректного имени пользователя"""
         browser.get(TestFieldsInvalidInput.url)
         shadow = Shadow(browser)
         time.sleep(5)
@@ -105,6 +114,7 @@ class TestFieldsInvalidInput:
                               'Допустимые символы (от 6 до 32): a-z, 0-9, _. Имя должно начинаться с буквы')
 
     def test_alert_email_field_invalid_input(self, browser):
+        """Тест для проверки сообщения об ошибке при вводе некорректного адреса электронной почты"""
         browser.get(TestFieldsInvalidInput.url)
         shadow = Shadow(browser)
         time.sleep(5)
@@ -119,6 +129,7 @@ class TestFieldsInvalidInput:
                               ' Формат e-mail: somebody@somewhere.ru ')
 
     def test_alert_password_field_short_invalid_input(self, browser):
+        """Тест для проверки сообщения об ошибке при вводе слишком короткого пароля"""
         browser.get(TestFieldsInvalidInput.url)
         shadow = Shadow(browser)
         time.sleep(5)
@@ -133,6 +144,7 @@ class TestFieldsInvalidInput:
                               'Пароль должен содержать минимум 8 символов')
 
     def test_alert_password_field_long_invalid_input(self, browser):
+        """Тест для проверки сообщения об ошибке при вводе длинного некорректного пароля"""
         browser.get(TestFieldsInvalidInput.url)
         shadow = Shadow(browser)
         time.sleep(5)
@@ -147,6 +159,7 @@ class TestFieldsInvalidInput:
                               'Пароль должен содержать от 8 до 64 символов, включая заглавные буквы и цифры')
 
     def test_alert_referral_field_invalid_input(self, browser):
+        """Тест для проверки сообщения об ошибке при вводе некорректного реферального кода"""
         browser.get(TestFieldsInvalidInput.url)
         shadow = Shadow(browser)
         time.sleep(5)

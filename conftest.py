@@ -4,7 +4,8 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 
-def pytest_addoption(parser):  # Определение функций добавления опции командной строки для pytest
+def pytest_addoption(parser):
+    """Определение функций добавления опции командной строки для pytest"""
     parser.addoption('--browser', action='store', default='firefox',  # Опция --browser для выбора браузера
                      help="Выберите браузер: chrome or firefox")
 
@@ -13,7 +14,8 @@ def pytest_addoption(parser):  # Определение функций доба�
 
 
 @pytest.fixture(scope="session")
-def browser(request):  # Определение функций которые будет инициализировать браузер перед выполнением тестов
+def browser(request):
+    """Определение функций которые будет инициализировать браузер перед выполнением тестов"""
     browser_name = request.config.getoption("browser")  # Получение значения опции --browser из командной строки
     user_language = request.config.getoption("language")  # Получение значения опции --language из командной строки
 
