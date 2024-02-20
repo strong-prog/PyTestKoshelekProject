@@ -5,10 +5,10 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 
 def pytest_addoption(parser):  # Определение функций добавления опции командной строки для pytest
-    parser.addoption('--browser', action='store', default='firefox',  # опции --browser для выбора браузера
+    parser.addoption('--browser', action='store', default='firefox',  # Опция --browser для выбора браузера
                      help="Выберите браузер: chrome or firefox")
 
-    parser.addoption('--language', action='store', default='ru',  # опции --language для выбора языка пользователя
+    parser.addoption('--language', action='store', default='ru',  # Опция --language для выбора языка пользователя
                      help="Выберите язык пользователя: ru, en, fr и т.д.")
 
 
