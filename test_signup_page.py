@@ -5,77 +5,15 @@ from pyshadow.main import Shadow
 from selenium.common import JavascriptException
 
 
-class TestAllFieldsEmpty:
-    url = 'https://koshelek.ru/authorization/signup'
-
+class BaseTestClass:
     @staticmethod
-    def button_click(shadow):
+    def button_click(shadow, button_selector):
         """Метод для нажатия на кнопку"""
         try:
-            button_element = shadow.find_element('div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
+            button_element = shadow.find_element(button_selector)
             button_element.click()
-
         except JavascriptException:
-            pytest.fail('Элемент "button_element" не найден, тест не может быть выполнен')
-
-    @staticmethod
-    def check_alert_text(shadow, element_selector, expected_text):
-        """Метод для проверки текста сообщения об ошибке"""
-        try:
-            alert_text = shadow.find_element(element_selector)
-
-            assert alert_text.text == expected_text, 'Текст сообщения ошибки не соответствует ожидаемому'
-
-        except JavascriptException:
-            pytest.fail(f'Элемент "{element_selector}" не найден, тест не может быть выполнен')
-
-    def test_username_alert_field_empty(self, browser):
-        """Тест для проверки сообщения об ошибке, если поле имени пользователя пустое"""
-        browser.get(TestAllFieldsEmpty.url)
-        shadow = Shadow(browser)
-        time.sleep(5)
-        self.button_click(shadow)
-        time.sleep(1)
-        self.check_alert_text(shadow,
-                              'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(1) > div > div > div.v-text-field__details > div > div > div > div > div > span',
-                              'Поле не заполнено')
-
-    def test_email_alert_field_empty(self, browser):
-        """Тест для проверки сообщения об ошибке, если поле электронной почты пустое"""
-        browser.get(TestAllFieldsEmpty.url)
-        shadow = Shadow(browser)
-        time.sleep(5)
-        self.button_click(shadow)
-        time.sleep(1)
-        self.check_alert_text(shadow,
-                              'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(2) > div > div > div.v-text-field__details > div > div > div > div > div > span',
-                              'Поле не заполнено')
-
-    def test_password_alert_field_empty(self, browser):
-        """Тест для проверки сообщения об ошибке, если поле пароля пустое"""
-        browser.get(TestAllFieldsEmpty.url)
-        shadow = Shadow(browser)
-        time.sleep(5)
-        self.button_click(shadow)
-        time.sleep(1)
-        self.check_alert_text(shadow,
-                              'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(3) > div > div > div > div > div.v-text-field__details > div > div > div > div > div > span',
-                              'Поле не заполнено')
-
-
-class TestFieldsInvalidInput:
-    url = 'https://koshelek.ru/authorization/signup'
-
-    @staticmethod
-    def button_click(shadow):
-        """Метод для нажатия на кнопку"""
-        try:
-            button_element = shadow.find_element(
-                'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
-            button_element.click()
-
-        except JavascriptException:
-            pytest.fail('Элемент "button_element" не найден, тест не может быть выполнен')
+            pytest.fail('Элемент кнопки не найден, тест не может быть выполнен')
 
     @staticmethod
     def enter_text(shadow, field_selector, text):
@@ -88,15 +26,57 @@ class TestFieldsInvalidInput:
             pytest.fail(f'Элемент "{field_selector}" не найден, тест не может быть выполнен')
 
     @staticmethod
-    def check_alert_text(shadow, field_selector, expected_text):
+    def check_alert_text(shadow, element_selector, expected_text):
         """Метод для проверки текста сообщения об ошибке"""
         try:
-            alert_text = shadow.find_element(field_selector)
-
+            alert_text = shadow.find_element(element_selector)
             assert alert_text.text == expected_text, 'Текст сообщения ошибки не соответствует ожидаемому'
-
         except JavascriptException:
-            pytest.fail(f'Элемент "{field_selector}" не найден, тест не может быть выполнен')
+            pytest.fail(f'Элемент "{element_selector}" не найден, тест не может быть выполнен')
+
+
+class TestAllFieldsEmpty(BaseTestClass):
+    url = 'https://koshelek.ru/authorization/signup'
+
+    def test_username_alert_field_empty(self, browser):
+        """Тест для проверки сообщения об ошибке, если поле имени пользователя пустое"""
+        browser.get(TestAllFieldsEmpty.url)
+        shadow = Shadow(browser)
+        time.sleep(5)
+        self.button_click(shadow,
+                          'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
+        time.sleep(1)
+        self.check_alert_text(shadow,
+                              'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(1) > div > div > div.v-text-field__details > div > div > div > div > div > span',
+                              'Поле не заполнено')
+
+    def test_email_alert_field_empty(self, browser):
+        """Тест для проверки сообщения об ошибке, если поле электронной почты пустое"""
+        browser.get(TestAllFieldsEmpty.url)
+        shadow = Shadow(browser)
+        time.sleep(5)
+        self.button_click(shadow,
+                          'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
+        time.sleep(1)
+        self.check_alert_text(shadow,
+                              'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(2) > div > div > div.v-text-field__details > div > div > div > div > div > span',
+                              'Поле не заполнено')
+
+    def test_password_alert_field_empty(self, browser):
+        """Тест для проверки сообщения об ошибке, если поле пароля пустое"""
+        browser.get(TestAllFieldsEmpty.url)
+        shadow = Shadow(browser)
+        time.sleep(5)
+        self.button_click(shadow,
+                          'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
+        time.sleep(1)
+        self.check_alert_text(shadow,
+                              'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(3) > div > div > div > div > div.v-text-field__details > div > div > div > div > div > span',
+                              'Поле не заполнено')
+
+
+class TestFieldsInvalidInput(BaseTestClass):
+    url = 'https://koshelek.ru/authorization/signup'
 
     def test_alert_username_field_invalid_input(self, browser):
         """Тест для проверки сообщения об ошибке при вводе некорректного имени пользователя"""
@@ -107,7 +87,8 @@ class TestFieldsInvalidInput:
                         'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(1) > div > div > div.v-input__slot > div.v-text-field__slot > input',
                         '123')
         time.sleep(1)
-        self.button_click(shadow)
+        self.button_click(shadow,
+                          'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
         time.sleep(1)
         self.check_alert_text(shadow,
                               'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(1) > div > div > div.v-text-field__details > div > div > div > div > div > span',
@@ -122,7 +103,8 @@ class TestFieldsInvalidInput:
                         'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(2) > div > div > div.v-input__slot > div.v-text-field__slot > input',
                         '123')
         time.sleep(1)
-        self.button_click(shadow)
+        self.button_click(shadow,
+                          'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
         time.sleep(1)
         self.check_alert_text(shadow,
                               'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(2) > div > div > div.v-text-field__details > div > div > div > div > div > span',
@@ -137,7 +119,8 @@ class TestFieldsInvalidInput:
                         'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(3) > div > div > div.v-input__slot > div.v-text-field__slot > input',
                         '123')
         time.sleep(1)
-        self.button_click(shadow)
+        self.button_click(shadow,
+                          'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
         time.sleep(1)
         self.check_alert_text(shadow,
                               'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(3) > div > div > div.v-text-field__details > div > div > div > div > div > span',
@@ -152,7 +135,8 @@ class TestFieldsInvalidInput:
                         'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(3) > div > div > div.v-input__slot > div.v-text-field__slot > input',
                         '1234567890')
         time.sleep(1)
-        self.button_click(shadow)
+        self.button_click(shadow,
+                          'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div.k-btn-long-button > button')
         time.sleep(1)
         self.check_alert_text(shadow,
                               'div.remoteApplication > div > div > div > div.css-grid.k-text-default > div:nth-child(2) > form > div > div:nth-child(3) > div > div > div.v-text-field__details > div > div > div > div > div > span',
